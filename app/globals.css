@@ -1,0 +1,105 @@
+@import "tailwindcss";
+
+/*
+  ============================================================
+  KEBAB HOUSE — Warm Cream Design System
+  ------------------------------------------------------------
+  Palette "Warm Cream + Brace" — crema calda, brace del kebab.
+  Token unici come single source of truth (vedi anche data/restaurant.ts).
+  ============================================================
+*/
+
+@theme inline {
+  --font-sans: var(--font-inter), system-ui, -apple-system, sans-serif;
+  --font-heading: var(--font-heading), "Georgia", serif;
+
+  /* --- Superfici / Warm Cream --- */
+  --color-cream: #f7f1e6; /* sfondo principale, crema calda */
+  --color-cream-deep: #efe6d4; /* crema più satura per sezioni */
+  --color-paper: #fffdf8; /* card / superfici elevate */
+  --color-sand: #e7dcc6; /* bordi / divisori caldi */
+
+  /* --- Inchiostro / testo --- */
+  --color-ink: #2b2118; /* testo principale, marrone scuro caldo */
+  --color-ink-soft: #6b5d4c; /* testo secondario */
+  --color-char: #1a140e; /* superfici scure (header, footer) */
+
+  /* --- Brace / accenti --- */
+  --color-ember: #d8542a; /* primario, brace/terracotta */
+  --color-ember-deep: #b23e1c; /* hover / pressed */
+  --color-gold: #c99a4e; /* oro caldo, badge premium */
+  --color-gold-soft: #e7c98a; /* oro chiaro */
+  --color-olive: #6f7a4b; /* verde halal / freschezza */
+  --color-olive-soft: #aeba8c;
+
+  --color-warm-gray: #8a7e6e;
+  --color-warm-gray-soft: #c4b8a4;
+
+  /* --- Radius --- */
+  --radius: 0.75rem;
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.85);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.5);
+  --radius-2xl: calc(var(--radius) * 2);
+  --radius-3xl: calc(var(--radius) * 2.6);
+
+  --color-border: rgba(43, 33, 24, 0.1);
+}
+
+:root {
+  color-scheme: light;
+  --background: #f7f1e6;
+  --foreground: #2b2118;
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+  body {
+    background: var(--color-cream);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  /* Warm grain / paper texture sottile sullo sfondo */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+      radial-gradient(1200px 600px at 80% -10%, rgba(216, 84, 42, 0.06), transparent),
+      radial-gradient(900px 500px at -10% 10%, rgba(201, 154, 78, 0.08), transparent);
+  }
+}
+
+/* Utility: nascondi scrollbar mantenendo lo scroll (category tabs) */
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-fade-up {
+  animation: fade-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
