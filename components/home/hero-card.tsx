@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { Sparkles, ShoppingBag, ShieldCheck } from "lucide-react";
 import { restaurant } from "@/data/restaurant";
@@ -6,27 +7,25 @@ export function HeroCard() {
   return (
     <section className="px-4 pt-3">
       <div className="relative mx-auto max-w-md overflow-hidden rounded-3xl shadow-[0_18px_50px_-20px_rgba(43,33,24,0.5)] ring-1 ring-black/5">
-        {/* Sfondo: gradiente brace caldo (placeholder finché non c'è la foto hero) */}
-        <div
-          className="relative aspect-[16/13] w-full"
-          style={{
-            background:
-              "radial-gradient(120% 90% at 80% 0%, #e9a23b 0%, #c2531f 45%, #7a2a12 100%)",
-          }}
-        >
+        {/* Sfondo: foto kebab sullo spiedo (still food photography) */}
+        <div className="relative aspect-[16/13] w-full bg-char">
+          <Image
+            src="/hero/kebab-spit.png"
+            alt="Kebab Halal cotto sullo spiedo verticale da Kebab House"
+            fill
+            priority
+            quality={80}
+            sizes="(max-width: 480px) 100vw, 480px"
+            className="object-cover"
+          />
+          {/* overlay scuro per leggibilità testo + badge */}
           <div
             aria-hidden
             className="absolute inset-0"
             style={{
               background:
-                "radial-gradient(60% 50% at 20% 100%, rgba(0,0,0,0.45), transparent), linear-gradient(to top, rgba(26,20,14,0.85), rgba(26,20,14,0.1) 45%, transparent)",
+                "radial-gradient(70% 55% at 25% 105%, rgba(0,0,0,0.55), transparent), linear-gradient(to top, rgba(26,20,14,0.92), rgba(26,20,14,0.25) 48%, rgba(26,20,14,0.35))",
             }}
-          />
-          {/* glow brace */}
-          <div
-            aria-hidden
-            className="absolute -right-10 -top-10 h-44 w-44 rounded-full opacity-40 blur-2xl"
-            style={{ background: "#ffd27a" }}
           />
 
           <div className="absolute inset-x-0 top-0 flex items-start justify-between gap-3 p-5">
