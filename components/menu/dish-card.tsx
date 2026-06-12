@@ -2,6 +2,7 @@ import { Flame, Leaf } from "lucide-react";
 import type { Dish } from "@/types/dish";
 import { DishImage } from "@/components/shared/dish-image";
 import { Price } from "@/components/shared/price";
+import { AddToCartButton } from "./add-to-cart-button";
 
 export function DishCard({ dish }: { dish: Dish }) {
   return (
@@ -25,22 +26,25 @@ export function DishCard({ dish }: { dish: Dish }) {
           {dish.description}
         </p>
 
-        <div className="mt-auto flex flex-wrap items-center gap-1.5 pt-2">
-          {dish.isVegetarian && (
-            <span className="inline-flex items-center gap-1 rounded-full bg-olive/12 px-2 py-0.5 text-[10px] font-semibold text-olive">
-              <Leaf className="h-3 w-3" /> Veg
-            </span>
-          )}
-          {dish.spicyLevel >= 2 && (
-            <span className="inline-flex items-center gap-1 rounded-full bg-ember/12 px-2 py-0.5 text-[10px] font-semibold text-ember">
-              <Flame className="h-3 w-3" /> Piccante
-            </span>
-          )}
-          {dish.isHalal && (
-            <span className="rounded-full bg-gold/15 px-2 py-0.5 text-[10px] font-semibold text-[#8a6a26]">
-              Halal
-            </span>
-          )}
+        <div className="mt-auto flex items-end justify-between gap-2 pt-2">
+          <div className="flex flex-wrap items-center gap-1.5">
+            {dish.isVegetarian && (
+              <span className="inline-flex items-center gap-1 rounded-full bg-olive/12 px-2 py-0.5 text-[10px] font-semibold text-olive">
+                <Leaf className="h-3 w-3" /> Veg
+              </span>
+            )}
+            {dish.spicyLevel >= 2 && (
+              <span className="inline-flex items-center gap-1 rounded-full bg-ember/12 px-2 py-0.5 text-[10px] font-semibold text-ember">
+                <Flame className="h-3 w-3" /> Piccante
+              </span>
+            )}
+            {dish.isHalal && (
+              <span className="rounded-full bg-gold/15 px-2 py-0.5 text-[10px] font-semibold text-[#8a6a26]">
+                Halal
+              </span>
+            )}
+          </div>
+          <AddToCartButton dish={dish} className="shrink-0" />
         </div>
       </div>
     </article>

@@ -1,7 +1,8 @@
 # Kebab House 🌯
 
-Web app **demo di prenotazione** per **Kebab House** — kebab & street food 100% Halal,
+Web app **demo di ordinazione** per **Kebab House** — kebab & street food 100% Halal,
 Via Dante Alighieri 18, Policoro (MT). Mobile-first, palette *Warm Cream + Brace*.
+Ordine online con **ritiro in negozio** o **asporto a domicilio** e scelta del pagamento.
 
 Costruita con la stessa architettura di `special-sushi-poke`.
 
@@ -16,12 +17,13 @@ npm run build    # build di produzione
 ```
 
 ## Pagine
-- `/` — Home: hero, specialità, categorie, CTA prenotazione, chi siamo, mappa
-- `/menu` — menù completo con tab di categoria sticky
-- `/prenota` — prenotazione tavolo / asporto con conferma a schermo (demo)
+- `/` — Home: hero, specialità (add-to-cart), categorie, CTA ordine, chi siamo, mappa
+- `/menu` — menù completo con tab di categoria sticky e pulsanti "Aggiungi"
+- `/ordina` — carrello + ritiro/asporto + pagamento (paga ora / al ritiro|consegna) + conferma (demo)
 
 ## Contenuti
 Tutto in `data/` (`restaurant.ts`, `menu.ts`, `categories.ts`). Prezzi in centesimi.
+Carrello client in `store/cart-store.ts` (zero dipendenze, localStorage).
 
 ## Foto dei piatti (kie.ai)
 Le immagini si generano con `tools/generate_images.py` (Nano Banana). Vedi

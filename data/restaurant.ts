@@ -16,7 +16,7 @@ export const restaurant = {
   whatsappDisplay: "351 000 0000",
   whatsappLink:
     "https://wa.me/393510000000?text=" +
-    encodeURIComponent("Ciao Kebab House! Vorrei prenotare un tavolo."),
+    encodeURIComponent("Ciao Kebab House! Vorrei fare un ordine."),
   email: "info@kebabhouse-policoro.it",
   hours: {
     weekdays: "12:00 – 15:00 · 18:00 – 23:30",

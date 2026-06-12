@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Sparkles, CalendarDays, ShieldCheck } from "lucide-react";
+import { Sparkles, ShoppingBag, ShieldCheck } from "lucide-react";
 import { restaurant } from "@/data/restaurant";
 
 export function HeroCard() {
@@ -50,11 +50,11 @@ export function HeroCard() {
 
             <div className="mt-4 flex flex-wrap gap-2">
               <Link
-                href="/prenota"
+                href="/menu"
                 className="inline-flex items-center gap-2 rounded-full bg-ember px-4 py-2.5 text-sm font-semibold text-white shadow-lg shadow-black/20 transition active:scale-95"
               >
-                <CalendarDays className="h-4 w-4" strokeWidth={2.4} />
-                Prenota un tavolo
+                <ShoppingBag className="h-4 w-4" strokeWidth={2.4} />
+                Ordina ora
               </Link>
               <Link
                 href="/menu"

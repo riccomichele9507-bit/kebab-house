@@ -6,9 +6,12 @@ Guida per Claude Code (e per chiunque sviluppi) su questo progetto.
 
 ## Cos'è questo progetto
 
-**Kebab House** è una **web app demo di prenotazione** per un kebab 100% Halal di nuova
+**Kebab House** è una **web app demo di ordinazione** per un kebab 100% Halal di nuova
 apertura a **Policoro (MT)**, in **Via Dante Alighieri 18**. È pensata come demo da
-inviare al cliente: mostra menù, identità visiva e un flusso di **prenotazione tavolo**.
+inviare al cliente: mostra menù, identità visiva e un flusso di **ordine online**
+(**ritiro in negozio** o **asporto a domicilio**) con scelta del **pagamento**
+(*Paga ora* — Stripe in futuro — oppure *paga al ritiro / alla consegna*).
+Il locale è concentrato su asporto/ritiro: **non** c'è prenotazione tavolo.
 
 - **Stack:** Next.js 15 (App Router) · React 19 · TypeScript · Tailwind CSS v4 · Framer Motion
 - **Stile:** mobile-first, palette **Warm Cream + Brace** (crema calda + accenti brace/terracotta)
@@ -36,15 +39,18 @@ app/                       # App Router (route + layout)
   layout.tsx               # root layout, font, metadata SEO, JSON-LD Restaurant
   page.tsx                 # Home (composizione delle sezioni home/)
   globals.css              # Design system Warm Cream (token @theme)
-  menu/page.tsx            # Pagina menù completa
-  prenota/page.tsx         # Pagina prenotazione (form + conferma)
+  menu/page.tsx            # Pagina menù completa (add-to-cart)
+  ordina/page.tsx          # Pagina ordine (carrello + ritiro/asporto + pagamento + conferma)
 
 components/
-  layout/                  # header, footer, mobile-tab-bar, mobile-nav
+  layout/                  # header, footer, mobile-tab-bar
   home/                    # sezioni della home (hero, usp, categorie, featured, cta, location)
-  menu/                    # category-tabs, dish-card, dish-grid, menu-client
-  booking/                 # booking-form (flusso prenotazione)
+  menu/                    # category-tabs, dish-card, menu-client, add-to-cart-button
+  order/                   # order-form (carrello, ritiro/asporto, pagamento, conferma)
   shared/                  # container, section-heading, price, dish-image, whatsapp-fab
+
+store/
+  cart-store.ts            # carrello client (useSyncExternalStore + localStorage, zero dipendenze)
 
 data/                      # Single source of truth dei contenuti
   restaurant.ts            # dati locale (nome, indirizzo, orari, contatti, social)
@@ -57,7 +63,7 @@ lib/
 
 types/
   dish.ts                  # tipi Dish / Category / Allergen
-  booking.ts               # tipi della prenotazione
+  booking.ts               # tipi ordine (OrderType, PaymentMethod, CartLine, OrderConfirmation)
 
 public/menu/               # immagini piatti (generate via kie.ai, vedi tools/)
 
@@ -117,6 +123,8 @@ Finché non esistono, l'app mostra un **placeholder a gradiente caldo** (vedi `s
 ---
 
 ## Note
-- Demo: la prenotazione **non** invia email/DB reali — mostra una conferma a schermo.
-  È predisposta per collegarsi in seguito a un backend (Supabase/Resend) come in `special-sushi-poke`.
+- Demo: l'ordine **non** invia email/DB reali e **non** addebita nulla — mostra una conferma a schermo.
+  - *Paga ora* è predisposto per **Stripe** (da attivare alla conferma del cliente).
+  - *Paga al ritiro / alla consegna* = contanti o carta in negozio / al driver.
+  È predisposta per collegarsi in seguito a un backend (Supabase/Resend/Stripe) come in `special-sushi-poke`.
 - Tutti i contenuti (indirizzo, orari, prezzi) sono in `data/` per modifiche rapide.

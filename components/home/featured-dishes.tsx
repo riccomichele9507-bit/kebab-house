@@ -4,6 +4,7 @@ import { featuredDishes } from "@/data/menu";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { DishImage } from "@/components/shared/dish-image";
 import { Price } from "@/components/shared/price";
+import { AddToCartButton } from "@/components/menu/add-to-cart-button";
 
 export function FeaturedDishes() {
   return (
@@ -23,10 +24,9 @@ export function FeaturedDishes() {
 
       <div className="no-scrollbar mt-4 flex gap-3 overflow-x-auto px-4 pb-1">
         {featuredDishes.map((dish) => (
-          <Link
+          <article
             key={dish.id}
-            href="/menu"
-            className="w-44 shrink-0 overflow-hidden rounded-2xl bg-paper ring-1 ring-black/5 transition active:scale-[0.98]"
+            className="flex w-44 shrink-0 flex-col overflow-hidden rounded-2xl bg-paper ring-1 ring-black/5"
           >
             <div className="relative aspect-[4/3] w-full overflow-hidden">
               <DishImage dish={dish} className="h-full w-full" sizes="180px" />
@@ -36,7 +36,7 @@ export function FeaturedDishes() {
                 </span>
               )}
             </div>
-            <div className="p-3">
+            <div className="flex flex-1 flex-col p-3">
               <h3 className="line-clamp-1 font-heading text-sm font-bold text-ink">
                 {dish.name}
                 {dish.format ? ` · ${dish.format}` : ""}
@@ -44,11 +44,12 @@ export function FeaturedDishes() {
               <p className="mt-0.5 line-clamp-2 text-[11px] leading-snug text-warm-gray">
                 {dish.description}
               </p>
-              <div className="mt-2">
+              <div className="mt-auto flex items-center justify-between gap-2 pt-2">
                 <Price cents={dish.price} className="text-base text-ember" />
+                <AddToCartButton dish={dish} />
               </div>
             </div>
-          </Link>
+          </article>
         ))}
       </div>
     </section>

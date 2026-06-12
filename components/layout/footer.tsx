@@ -56,7 +56,7 @@ export function Footer() {
         <div className="mt-8 flex flex-wrap gap-x-4 gap-y-1 text-xs text-cream/50">
           <Link href="/" className="hover:text-cream">Home</Link>
           <Link href="/menu" className="hover:text-cream">Menù</Link>
-          <Link href="/prenota" className="hover:text-cream">Prenota</Link>
+          <Link href="/ordina" className="hover:text-cream">Ordina</Link>
         </div>
 
         <p className="mt-6 text-xs text-cream/40">

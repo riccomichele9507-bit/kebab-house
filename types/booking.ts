@@ -1,16 +1,28 @@
-export type OrderType = "tavolo" | "asporto";
+export type OrderType = "ritiro" | "asporto";
+export type PaymentMethod = "ora" | "ritiro";
 
-export interface BookingDraft {
+export interface CartLine {
+  id: string;
+  name: string;
+  format?: string;
+  price: number; // centesimi
+  qty: number;
+}
+
+export interface OrderDraft {
   type: OrderType;
   date: string; // YYYY-MM-DD
   time: string; // HH:mm
-  partySize: number;
   name: string;
   phone: string;
+  address: string; // solo asporto
   notes: string;
+  payment: PaymentMethod;
 }
 
-export interface BookingConfirmation extends BookingDraft {
-  reference: string; // codice prenotazione generato
+export interface OrderConfirmation extends OrderDraft {
+  reference: string;
+  items: CartLine[];
+  total: number; // centesimi
   createdAt: string; // ISO
 }

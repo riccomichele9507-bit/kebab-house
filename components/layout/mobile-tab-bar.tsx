@@ -2,19 +2,21 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, UtensilsCrossed, CalendarDays, MapPin } from "lucide-react";
-import { motion } from "framer-motion";
+import { Home, UtensilsCrossed, ShoppingBag, MapPin } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { useCartCount } from "@/store/cart-store";
 
 const tabs = [
   { id: "home", href: "/", label: "Home", icon: Home, exact: true },
   { id: "menu", href: "/menu", label: "Menù", icon: UtensilsCrossed },
-  { id: "prenota", href: "/prenota", label: "Prenota", icon: CalendarDays },
+  { id: "ordina", href: "/ordina", label: "Ordina", icon: ShoppingBag, badge: true },
   { id: "dove", href: "/#location", label: "Dove", icon: MapPin },
 ] as const;
 
 export function MobileTabBar() {
   const pathname = usePathname();
+  const count = useCartCount();
 
   function isActive(tab: (typeof tabs)[number]): boolean {
     if (tab.href.includes("#")) return false;
@@ -32,6 +34,7 @@ export function MobileTabBar() {
         {tabs.map((tab) => {
           const Icon = tab.icon;
           const active = isActive(tab);
+          const showBadge = "badge" in tab && tab.badge && count > 0;
           return (
             <li key={tab.id} className="flex-1">
               <Link href={tab.href} aria-label={tab.label} className="block w-full">
@@ -43,7 +46,23 @@ export function MobileTabBar() {
                     active ? "text-ember" : "text-warm-gray hover:text-ink",
                   )}
                 >
-                  <Icon className="h-5 w-5" strokeWidth={active ? 2.4 : 1.8} />
+                  <span className="relative">
+                    <Icon className="h-5 w-5" strokeWidth={active ? 2.4 : 1.8} />
+                    <AnimatePresence>
+                      {showBadge && (
+                        <motion.span
+                          key={count}
+                          initial={{ scale: 0, opacity: 0 }}
+                          animate={{ scale: 1, opacity: 1 }}
+                          exit={{ scale: 0, opacity: 0 }}
+                          transition={{ type: "spring", stiffness: 600, damping: 20 }}
+                          className="absolute -right-2.5 -top-2 inline-flex h-4 min-w-4 items-center justify-center rounded-full bg-ember px-1 text-[10px] font-bold leading-none text-white ring-2 ring-cream"
+                        >
+                          {count > 99 ? "99+" : count}
+                        </motion.span>
+                      )}
+                    </AnimatePresence>
+                  </span>
                   <span className={cn("text-[10px] tracking-wide", active ? "font-semibold" : "font-normal")}>
                     {tab.label}
                   </span>

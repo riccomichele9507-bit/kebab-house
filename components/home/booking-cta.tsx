@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { CalendarDays, Users } from "lucide-react";
+import { ShoppingBag, Bike, Store } from "lucide-react";
 
 export function BookingCTA() {
   return (
@@ -12,22 +12,31 @@ export function BookingCTA() {
         />
         <div className="relative">
           <span className="inline-flex items-center gap-1.5 rounded-full bg-ember/20 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider text-gold-soft">
-            <Users className="h-3 w-3" strokeWidth={2.5} />
-            Prenotazione tavolo
+            <ShoppingBag className="h-3 w-3" strokeWidth={2.5} />
+            Ordina online
           </span>
           <h2 className="mt-3 font-heading text-2xl font-extrabold leading-tight">
-            Assicurati il tuo posto
+            Il tuo kebab, come vuoi tu
           </h2>
           <p className="mt-1.5 text-sm text-cream/70">
-            Prenota in pochi secondi: scegli giorno, ora e numero di persone.
-            Ti aspettiamo da Kebab House.
+            Scegli i piatti, poi ritira in negozio o ricevi a casa. Paga ora o alla consegna.
           </p>
+
+          <div className="mt-4 flex flex-wrap gap-3 text-xs text-cream/80">
+            <span className="inline-flex items-center gap-1.5">
+              <Store className="h-4 w-4 text-gold" strokeWidth={2.2} /> Ritiro in negozio
+            </span>
+            <span className="inline-flex items-center gap-1.5">
+              <Bike className="h-4 w-4 text-gold" strokeWidth={2.2} /> Asporto a domicilio
+            </span>
+          </div>
+
           <Link
-            href="/prenota"
-            className="mt-4 inline-flex items-center gap-2 rounded-full bg-ember px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-black/30 transition active:scale-95"
+            href="/menu"
+            className="mt-5 inline-flex items-center gap-2 rounded-full bg-ember px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-black/30 transition active:scale-95"
           >
-            <CalendarDays className="h-4 w-4" strokeWidth={2.4} />
-            Prenota ora
+            <ShoppingBag className="h-4 w-4" strokeWidth={2.4} />
+            Ordina ora
           </Link>
         </div>
       </div>

@@ -25,13 +25,14 @@ export const metadata: Metadata = {
     default: `${restaurant.name} — ${restaurant.tagline}`,
     template: `%s — ${restaurant.name}`,
   },
-  description: `Kebab 100% Halal a Policoro, ${restaurant.address.fullAddress}. Prenota il tuo tavolo online.`,
+  description: `Kebab 100% Halal a Policoro, ${restaurant.address.fullAddress}. Ordina online: ritiro o asporto a domicilio.`,
   keywords: [
     "kebab Policoro",
     "kebab halal Policoro",
     "street food Policoro",
     "Kebab House",
-    "prenotazione kebab",
+    "kebab asporto Policoro",
+    "ordina kebab online",
     "Via Dante Alighieri Policoro",
   ],
   openGraph: {
@@ -39,7 +40,7 @@ export const metadata: Metadata = {
     locale: "it_IT",
     url: siteUrl,
     title: `${restaurant.name} — ${restaurant.tagline}`,
-    description: "Kebab 100% Halal a Policoro. Menù e prenotazione tavolo online.",
+    description: "Kebab 100% Halal a Policoro. Menù e ordini online: ritiro o asporto.",
     siteName: restaurant.name,
   },
 };

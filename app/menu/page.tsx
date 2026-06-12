@@ -18,7 +18,7 @@ export default function MenuPage() {
           Tutto il gusto Halal
         </h1>
         <p className="mt-1.5 text-sm text-ink-soft">
-          Prezzi chiari, ingredienti freschi. Scegli e prenota il tuo tavolo.
+          Prezzi chiari, ingredienti freschi. Aggiungi al carrello e ordina.
         </p>
       </header>
 
