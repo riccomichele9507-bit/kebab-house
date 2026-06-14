@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Sparkles, ArrowRight } from "lucide-react";
-import { builderBases } from "@/data/ingredients";
+import { builderBases, builderMainIds, baseFromPrice } from "@/data/ingredients";
 import { formatPrice } from "@/lib/format";
 import { getDishById } from "@/data/menu";
 import { DishImage } from "@/components/shared/dish-image";
@@ -32,26 +32,28 @@ export function CreateYourOwn() {
           </div>
 
           <div className="mt-4 grid grid-cols-3 gap-2">
-            {builderBases.map((b) => {
-              const dish = getDishById(b.id);
-              return (
-                <Link
-                  key={b.id}
-                  href={`/crea?base=${b.id}`}
-                  className="group overflow-hidden rounded-2xl bg-cream/5 ring-1 ring-white/10 transition active:scale-[0.97]"
-                >
-                  <div className="relative aspect-square w-full overflow-hidden">
-                    {dish && <DishImage dish={dish} className="h-full w-full" sizes="120px" />}
-                  </div>
-                  <div className="px-2 py-1.5">
-                    <p className="text-xs font-bold text-cream">{b.label}</p>
-                    <p className="text-[11px] font-semibold text-gold-soft">
-                      da {formatPrice(b.price)}
-                    </p>
-                  </div>
-                </Link>
-              );
-            })}
+            {builderBases
+              .filter((b) => builderMainIds.includes(b.id))
+              .map((b) => {
+                const dish = getDishById(b.id);
+                return (
+                  <Link
+                    key={b.id}
+                    href={`/crea?base=${b.id}`}
+                    className="group overflow-hidden rounded-2xl bg-cream/5 ring-1 ring-white/10 transition active:scale-[0.97]"
+                  >
+                    <div className="relative aspect-square w-full overflow-hidden">
+                      {dish && <DishImage dish={dish} className="h-full w-full" sizes="120px" />}
+                    </div>
+                    <div className="px-2 py-1.5">
+                      <p className="text-xs font-bold text-cream">{b.label}</p>
+                      <p className="text-[11px] font-semibold text-gold-soft">
+                        da {formatPrice(baseFromPrice(b))}
+                      </p>
+                    </div>
+                  </Link>
+                );
+              })}
           </div>
 
           <Link

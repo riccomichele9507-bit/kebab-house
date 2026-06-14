@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Sparkles, ShieldCheck } from "lucide-react";
+import { Sparkles, ShieldCheck, ShoppingBag } from "lucide-react";
 import { restaurant } from "@/data/restaurant";
 
 export function HeroCard() {
@@ -49,17 +49,18 @@ export function HeroCard() {
 
             <div className="mt-4 flex flex-wrap gap-2">
               <Link
-                href="/crea"
+                href="/menu"
                 className="inline-flex items-center gap-2 rounded-full bg-ember px-4 py-2.5 text-sm font-semibold text-white shadow-lg shadow-black/20 transition active:scale-95"
+              >
+                <ShoppingBag className="h-4 w-4" strokeWidth={2.4} />
+                Ordina ora
+              </Link>
+              <Link
+                href="/crea"
+                className="inline-flex items-center gap-2 rounded-full bg-white/95 px-4 py-2.5 text-sm font-semibold text-ink transition active:scale-95"
               >
                 <Sparkles className="h-4 w-4" strokeWidth={2.4} />
                 Crea il tuo
-              </Link>
-              <Link
-                href="/menu"
-                className="inline-flex items-center gap-2 rounded-full bg-white/95 px-4 py-2.5 text-sm font-semibold text-ink transition active:scale-95"
-              >
-                Vedi il menù
               </Link>
             </div>
           </div>

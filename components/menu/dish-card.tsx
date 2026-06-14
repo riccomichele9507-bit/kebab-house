@@ -26,7 +26,7 @@ export function DishCard({ dish }: { dish: Dish }) {
               <span className="ml-1 text-xs font-medium text-warm-gray">· {dish.format}</span>
             )}
           </h3>
-          {dish.isCustomizable ? (
+          {dish.priceFrom ? (
             <span className="shrink-0 text-sm font-bold text-ember">
               da {formatPrice(dish.price)}
             </span>

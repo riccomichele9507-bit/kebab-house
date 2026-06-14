@@ -1,6 +1,7 @@
 import Link from "next/link";
-import { ArrowRight, Flame } from "lucide-react";
+import { ArrowRight, Flame, Sparkles } from "lucide-react";
 import { featuredDishes } from "@/data/menu";
+import { formatPrice } from "@/lib/format";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { DishImage } from "@/components/shared/dish-image";
 import { Price } from "@/components/shared/price";
@@ -45,8 +46,22 @@ export function FeaturedDishes() {
                 {dish.description}
               </p>
               <div className="mt-auto flex items-center justify-between gap-2 pt-2">
-                <Price cents={dish.price} className="text-base text-ember" />
-                <AddToCartButton dish={dish} />
+                {dish.priceFrom ? (
+                  <span className="text-base font-bold text-ember">da {formatPrice(dish.price)}</span>
+                ) : (
+                  <Price cents={dish.price} className="text-base text-ember" />
+                )}
+                {dish.isCustomizable ? (
+                  <Link
+                    href={`/crea?base=${dish.id}`}
+                    className="inline-flex items-center gap-1 rounded-full bg-ember px-3 py-1.5 text-xs font-bold text-white transition active:scale-90"
+                  >
+                    <Sparkles className="h-3.5 w-3.5" strokeWidth={2.6} />
+                    Crea
+                  </Link>
+                ) : (
+                  <AddToCartButton dish={dish} />
+                )}
               </div>
             </div>
           </article>

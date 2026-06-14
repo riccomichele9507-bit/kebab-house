@@ -35,10 +35,10 @@ export interface Dish {
   isVegetarian?: boolean;
   isNew?: boolean;
   isFeatured?: boolean;
-  /** Base "solo carne" personalizzabile dal builder /crea. */
+  /** Personalizzabile dal builder /crea (scelta variante + ingredienti). */
   isCustomizable?: boolean;
-  /** Tipo di base per il builder (panino/piadina/piatto). */
-  baseKind?: "panino" | "piadina" | "piatto";
+  /** Mostra il prezzo come "da €…" (basi con più varianti). */
+  priceFrom?: boolean;
   /** Colori del placeholder a gradiente quando manca la foto. */
   bgFrom?: string;
   bgTo?: string;

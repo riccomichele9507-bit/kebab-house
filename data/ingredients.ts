@@ -1,6 +1,7 @@
 /**
- * Ingredienti e salse per il builder "Crea il tuo" (panino / piadina / piatto).
- * Stessa lista per tutte e tre le basi. Aggiunta GRATUITA.
+ * Builder "Crea il tuo" — basi con varianti (Kebab / Carne, + taglie per il piatto)
+ * e ingredienti/salse a scelta. L'aggiunta di verdure e salse è sempre GRATUITA.
+ * Vale anche per hamburger e fish burger (varianti singole).
  */
 
 export interface BuilderItem {
@@ -28,43 +29,83 @@ export const sauces: BuilderItem[] = [
   { id: "maionese", label: "Maionese", emoji: "🥚" },
 ];
 
-/** Basi del builder: id deve combaciare con un Dish in data/menu.ts. */
-export interface BuilderBase {
+export interface BaseVariant {
   id: string;
-  kind: "panino" | "piadina" | "piatto";
   label: string;
-  price: number; // centesimi, "solo carne"
-  image: string;
+  price: number; // centesimi
+}
+
+export interface BuilderBase {
+  id: string; // combacia con un Dish in data/menu.ts
+  kind: "panino" | "piadina" | "piatto" | "burger";
+  label: string;
   desc: string;
+  image: string;
+  /** Mostra il selettore variante (Kebab/Carne/taglie) solo se > 1. */
+  variants: BaseVariant[];
 }
 
 export const builderBases: BuilderBase[] = [
   {
-    id: "panino-kebab",
+    id: "panino",
     kind: "panino",
     label: "Panino",
-    price: 500,
+    desc: "Pane morbido, scegli Kebab o Carne",
     image: "/menu/panino-kebab.png",
-    desc: "Pane morbido + carne kebab Halal allo spiedo",
+    variants: [
+      { id: "kebab", label: "Kebab", price: 450 },
+      { id: "carne", label: "Carne", price: 550 },
+    ],
   },
   {
-    id: "piadina-kebab",
+    id: "piadina",
     kind: "piadina",
     label: "Piadina",
-    price: 650,
+    desc: "Piadina farcita, scegli Kebab o Carne",
     image: "/menu/piadina-kebab.png",
-    desc: "Piadina farcita + carne kebab Halal allo spiedo",
+    variants: [
+      { id: "kebab", label: "Kebab", price: 500 },
+      { id: "carne", label: "Carne", price: 650 },
+    ],
   },
   {
-    id: "piatto-kebab",
+    id: "piatto",
     kind: "piatto",
     label: "Piatto",
-    price: 1000,
+    desc: "Con patatine, scegli Kebab o Carne",
     image: "/menu/piatto-kebab-grande.png",
-    desc: "Abbondante carne kebab Halal con patatine",
+    variants: [
+      { id: "kebab-piccolo", label: "Kebab piccolo", price: 600 },
+      { id: "kebab-grande", label: "Kebab grande", price: 800 },
+      { id: "carne", label: "Carne", price: 1000 },
+    ],
+  },
+  {
+    id: "hamburger",
+    kind: "burger",
+    label: "Hamburger",
+    desc: "Hamburger di manzo Halal",
+    image: "/menu/hamburger.png",
+    variants: [{ id: "unico", label: "Hamburger", price: 500 }],
+  },
+  {
+    id: "fish-burger",
+    kind: "burger",
+    label: "Fish Burger",
+    desc: "Filetto di pesce panato e croccante",
+    image: "/menu/fish-burger.png",
+    variants: [{ id: "unico", label: "Fish Burger", price: 400 }],
   },
 ];
+
+/** Basi mostrate in evidenza nella sezione "Crea il tuo". */
+export const builderMainIds = ["panino", "piadina", "piatto"];
 
 export const builderBaseById = Object.fromEntries(
   builderBases.map((b) => [b.id, b]),
 ) as Record<string, BuilderBase>;
+
+/** Prezzo minimo di una base (per le etichette "da €…"). */
+export function baseFromPrice(b: BuilderBase): number {
+  return Math.min(...b.variants.map((v) => v.price));
+}

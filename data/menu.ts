@@ -11,11 +11,11 @@ import type { Dish } from "@/types/dish";
 export const menu: Dish[] = [
   // === PANINI E PIADINE ===
   {
-    id: "panino-kebab",
-    name: "Panino Kebab",
+    id: "panino",
+    name: "Panino",
     description:
-      "Pane morbido e carne kebab Halal cotta allo spiedo. Aggiungi verdure e salse gratis: crea il tuo panino!",
-    price: 500,
+      "Pane morbido con Kebab o Carne a scelta. Aggiungi verdure e salse gratis: crea il tuo panino!",
+    price: 450,
     category: "panini",
     image: "/menu/panino-kebab.png",
     imageAlt: "Panino kebab con carne, insalata e salsa",
@@ -24,16 +24,16 @@ export const menu: Dish[] = [
     isHalal: true,
     isFeatured: true,
     isCustomizable: true,
-    baseKind: "panino",
+    priceFrom: true,
     bgFrom: "#e9a23b",
     bgTo: "#c2531f",
   },
   {
-    id: "piadina-kebab",
-    name: "Piadina Kebab",
+    id: "piadina",
+    name: "Piadina",
     description:
-      "Piadina farcita con carne kebab Halal allo spiedo. Aggiungi verdure e salse gratis: crea la tua piadina!",
-    price: 650,
+      "Piadina farcita con Kebab o Carne a scelta. Aggiungi verdure e salse gratis: crea la tua piadina!",
+    price: 500,
     category: "panini",
     image: "/menu/piadina-kebab.png",
     imageAlt: "Piadina arrotolata con kebab",
@@ -42,7 +42,7 @@ export const menu: Dish[] = [
     isHalal: true,
     isFeatured: true,
     isCustomizable: true,
-    baseKind: "piadina",
+    priceFrom: true,
     bgFrom: "#edb14a",
     bgTo: "#c2531f",
   },
@@ -81,11 +81,11 @@ export const menu: Dish[] = [
 
   // === PIATTI ===
   {
-    id: "piatto-kebab",
-    name: "Piatto Kebab",
+    id: "piatto",
+    name: "Piatto",
     description:
-      "Abbondante carne kebab Halal con patatine fritte. Aggiungi verdure e salse gratis: crea il tuo piatto!",
-    price: 1000,
+      "Con patatine fritte e Kebab (piccolo/grande) o Carne a scelta. Aggiungi verdure e salse gratis!",
+    price: 600,
     category: "piatti",
     image: "/menu/piatto-kebab-grande.png",
     imageAlt: "Piatto kebab con patatine e insalata",
@@ -94,7 +94,7 @@ export const menu: Dish[] = [
     isHalal: true,
     isFeatured: true,
     isCustomizable: true,
-    baseKind: "piatto",
+    priceFrom: true,
     bgFrom: "#e9a23b",
     bgTo: "#b23e1c",
   },
@@ -117,7 +117,8 @@ export const menu: Dish[] = [
   {
     id: "fish-burger",
     name: "Fish Burger",
-    description: "Filetto di pesce panato e croccante, insalata, salsa tartara e pane sesamo.",
+    description:
+      "Filetto di pesce panato e croccante con salsa tartara. Aggiungi verdure e salse gratis!",
     price: 400,
     category: "burger",
     image: "/menu/fish-burger.png",
@@ -125,6 +126,7 @@ export const menu: Dish[] = [
     allergens: ["glutine", "pesce", "uova", "latte"],
     spicyLevel: 0,
     isHalal: true,
+    isCustomizable: true,
     bgFrom: "#7fb6c4",
     bgTo: "#3f6f7a",
   },
@@ -132,7 +134,7 @@ export const menu: Dish[] = [
     id: "hamburger",
     name: "Hamburger",
     description:
-      "Hamburger di manzo Halal, formaggio fuso, insalata, pomodoro e salsa della casa.",
+      "Hamburger di manzo Halal con formaggio fuso. Aggiungi verdure e salse gratis!",
     price: 500,
     category: "burger",
     image: "/menu/hamburger.png",
@@ -141,6 +143,7 @@ export const menu: Dish[] = [
     spicyLevel: 0,
     isHalal: true,
     isFeatured: true,
+    isCustomizable: true,
     bgFrom: "#d98a4a",
     bgTo: "#9c3f1c",
   },

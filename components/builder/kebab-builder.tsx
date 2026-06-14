@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
@@ -9,20 +9,41 @@ import { cn } from "@/lib/utils";
 import { formatPrice } from "@/lib/format";
 import { DishImage } from "@/components/shared/dish-image";
 import { addCustomLine } from "@/store/cart-store";
-import { builderBases, veggies, sauces, type BuilderBase } from "@/data/ingredients";
+import {
+  builderBases,
+  builderMainIds,
+  veggies,
+  sauces,
+  type BuilderBase,
+  type BaseVariant,
+} from "@/data/ingredients";
 import { getDishById } from "@/data/menu";
 
 export function KebabBuilder() {
   const params = useSearchParams();
-  const initialBase =
-    builderBases.find((b) => b.id === params.get("base")) ?? builderBases[0];
+  const requested = builderBases.find((b) => b.id === params.get("base"));
+  const initialBase = requested ?? builderBases[0];
 
   const [base, setBase] = useState<BuilderBase>(initialBase);
+  const [variant, setVariant] = useState<BaseVariant>(initialBase.variants[0]);
   const [selVeggies, setSelVeggies] = useState<Set<string>>(
     new Set(["insalata", "pomodoro", "cipolla"]),
   );
   const [selSauces, setSelSauces] = useState<Set<string>>(new Set(["yogurt"]));
   const [added, setAdded] = useState(false);
+
+  // Mostra le 3 basi principali + l'eventuale base extra arrivata da ?base= (es. hamburger)
+  const shownBases = useMemo(() => {
+    const mains = builderBases.filter((b) => builderMainIds.includes(b.id));
+    if (!builderMainIds.includes(base.id)) return [...mains, base];
+    return mains;
+  }, [base]);
+
+  function pickBase(b: BuilderBase) {
+    setBase(b);
+    setVariant(b.variants[0]);
+    setAdded(false);
+  }
 
   function toggle(set: Set<string>, setter: (s: Set<string>) => void, id: string) {
     const next = new Set(set);
@@ -38,33 +59,41 @@ export function KebabBuilder() {
     return [...v, ...s];
   }
 
+  function cartName(): string {
+    if (variant.id === "unico") return base.label;
+    return `${base.label} ${variant.label}`;
+  }
+
   function handleAdd() {
     addCustomLine(
-      { id: base.id, name: base.label + " Kebab", format: "Crea il tuo", price: base.price },
+      { id: `${base.id}-${variant.id}`, name: cartName(), format: "Crea il tuo", price: variant.price },
       selectedLabels(),
     );
     setAdded(true);
     if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
-  const baseDish = getDishById(base.id);
+  const hasVariants = base.variants.length > 1;
+  let step = 1;
+  const stepBase = step++;
+  const stepVariant = hasVariants ? step++ : 0;
+  const stepVeg = step++;
+  const stepSauce = step++;
 
   return (
     <div className="mx-auto max-w-md px-4 pb-32">
-      {/* Step 1 — Base */}
-      <Step n={1} title="Scegli la base" />
+      {/* Step — Base */}
+      <Step n={stepBase} title="Scegli la base" />
       <div className="mt-3 grid grid-cols-3 gap-2">
-        {builderBases.map((b) => {
+        {shownBases.map((b) => {
           const active = base.id === b.id;
           const dish = getDishById(b.id);
+          const from = Math.min(...b.variants.map((v) => v.price));
           return (
             <button
               key={b.id}
               type="button"
-              onClick={() => {
-                setBase(b);
-                setAdded(false);
-              }}
+              onClick={() => pickBase(b)}
               className={cn(
                 "overflow-hidden rounded-2xl bg-paper text-left ring-2 transition active:scale-[0.98]",
                 active ? "ring-ember" : "ring-black/5",
@@ -80,19 +109,55 @@ export function KebabBuilder() {
               </div>
               <div className="px-2 py-1.5">
                 <p className="text-xs font-bold text-ink">{b.label}</p>
-                <p className="text-[11px] font-semibold text-ember">{formatPrice(b.price)}</p>
+                <p className="text-[11px] font-semibold text-ember">
+                  {b.variants.length > 1 ? "da " : ""}
+                  {formatPrice(from)}
+                </p>
               </div>
             </button>
           );
         })}
       </div>
-      {baseDish && (
-        <p className="mt-2 px-1 text-xs text-warm-gray">{base.desc} · solo carne</p>
+      <p className="mt-2 px-1 text-xs text-warm-gray">{base.desc}</p>
+
+      {/* Step — Variante (Kebab/Carne/taglie) */}
+      {hasVariants && (
+        <>
+          <div className="mt-7">
+            <Step n={stepVariant} title="Kebab o Carne?" />
+          </div>
+          <div className="mt-3 flex flex-wrap gap-2">
+            {base.variants.map((v) => {
+              const active = variant.id === v.id;
+              return (
+                <button
+                  key={v.id}
+                  type="button"
+                  onClick={() => {
+                    setVariant(v);
+                    setAdded(false);
+                  }}
+                  className={cn(
+                    "flex items-center gap-2 rounded-2xl px-4 py-2.5 text-sm font-semibold transition active:scale-95",
+                    active
+                      ? "bg-ember text-white shadow-sm"
+                      : "bg-paper text-ink-soft ring-1 ring-black/5 hover:text-ink",
+                  )}
+                >
+                  {v.label}
+                  <span className={cn("text-xs font-bold", active ? "text-white/90" : "text-ember")}>
+                    {formatPrice(v.price)}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </>
       )}
 
-      {/* Step 2 — Verdure */}
+      {/* Step — Verdure */}
       <div className="mt-7 flex items-center justify-between">
-        <Step n={2} title="Aggiungi le verdure" />
+        <Step n={stepVeg} title="Aggiungi le verdure" />
         <span className="rounded-full bg-olive/15 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-olive">
           Gratis
         </span>
@@ -109,9 +174,9 @@ export function KebabBuilder() {
         ))}
       </div>
 
-      {/* Step 3 — Salse */}
+      {/* Step — Salse */}
       <div className="mt-7 flex items-center justify-between">
-        <Step n={3} title="Scegli le salse" />
+        <Step n={stepSauce} title="Scegli le salse" />
         <span className="rounded-full bg-olive/15 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-olive">
           Gratis
         </span>
@@ -155,9 +220,9 @@ export function KebabBuilder() {
           >
             <span className="inline-flex items-center gap-2">
               <ShoppingBag className="h-4 w-4" strokeWidth={2.4} />
-              Aggiungi il tuo {base.label}
+              Aggiungi {cartName()}
             </span>
-            <span className="tabular-nums">{formatPrice(base.price)}</span>
+            <span className="tabular-nums">{formatPrice(variant.price)}</span>
           </button>
         </div>
       </div>
