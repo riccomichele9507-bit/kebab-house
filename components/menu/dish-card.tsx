@@ -1,5 +1,7 @@
-import { Flame, Leaf } from "lucide-react";
+import Link from "next/link";
+import { Flame, Leaf, Sparkles } from "lucide-react";
 import type { Dish } from "@/types/dish";
+import { formatPrice } from "@/lib/format";
 import { DishImage } from "@/components/shared/dish-image";
 import { Price } from "@/components/shared/price";
 import { AddToCartButton } from "./add-to-cart-button";
@@ -9,6 +11,11 @@ export function DishCard({ dish }: { dish: Dish }) {
     <article className="flex gap-3 rounded-2xl bg-paper p-3 ring-1 ring-black/5">
       <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-xl">
         <DishImage dish={dish} className="h-full w-full" sizes="96px" />
+        {dish.isCustomizable && (
+          <span className="absolute left-1 top-1 inline-flex items-center gap-0.5 rounded-full bg-ember px-1.5 py-0.5 text-[9px] font-bold uppercase text-white">
+            <Sparkles className="h-2.5 w-2.5" /> Crea
+          </span>
+        )}
       </div>
 
       <div className="flex min-w-0 flex-1 flex-col">
@@ -19,7 +26,13 @@ export function DishCard({ dish }: { dish: Dish }) {
               <span className="ml-1 text-xs font-medium text-warm-gray">· {dish.format}</span>
             )}
           </h3>
-          <Price cents={dish.price} className="shrink-0 text-sm text-ember" />
+          {dish.isCustomizable ? (
+            <span className="shrink-0 text-sm font-bold text-ember">
+              da {formatPrice(dish.price)}
+            </span>
+          ) : (
+            <Price cents={dish.price} className="shrink-0 text-sm text-ember" />
+          )}
         </div>
 
         <p className="mt-1 line-clamp-2 text-xs leading-snug text-warm-gray">
@@ -44,7 +57,17 @@ export function DishCard({ dish }: { dish: Dish }) {
               </span>
             )}
           </div>
-          <AddToCartButton dish={dish} className="shrink-0" />
+          {dish.isCustomizable ? (
+            <Link
+              href={`/crea?base=${dish.id}`}
+              className="inline-flex shrink-0 items-center gap-1 rounded-full bg-ember px-3 py-1.5 text-xs font-bold text-white shadow-sm transition active:scale-90"
+            >
+              <Sparkles className="h-3.5 w-3.5" strokeWidth={2.6} />
+              Personalizza
+            </Link>
+          ) : (
+            <AddToCartButton dish={dish} className="shrink-0" />
+          )}
         </div>
       </div>
     </article>

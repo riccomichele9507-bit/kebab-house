@@ -18,11 +18,7 @@ export function Footer() {
           </div>
           <div className="flex items-start gap-3">
             <Clock className="mt-0.5 h-4 w-4 shrink-0 text-gold" />
-            <span>
-              Lun–Ven: {restaurant.hours.weekdays}
-              <br />
-              Sab–Dom: {restaurant.hours.weekend}
-            </span>
+            <span>{restaurant.hours.everyday}</span>
           </div>
           <div className="flex items-center gap-3">
             <Phone className="h-4 w-4 shrink-0 text-gold" />

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, UtensilsCrossed, ShoppingBag, MapPin } from "lucide-react";
+import { Home, UtensilsCrossed, Sparkles, ShoppingBag } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useCartCount } from "@/store/cart-store";
@@ -10,8 +10,8 @@ import { useCartCount } from "@/store/cart-store";
 const tabs = [
   { id: "home", href: "/", label: "Home", icon: Home, exact: true },
   { id: "menu", href: "/menu", label: "Menù", icon: UtensilsCrossed },
+  { id: "crea", href: "/crea", label: "Crea", icon: Sparkles },
   { id: "ordina", href: "/ordina", label: "Ordina", icon: ShoppingBag, badge: true },
-  { id: "dove", href: "/#location", label: "Dove", icon: MapPin },
 ] as const;
 
 export function MobileTabBar() {

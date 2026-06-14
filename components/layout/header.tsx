@@ -9,6 +9,7 @@ import { restaurant } from "@/data/restaurant";
 const navLinks = [
   { href: "/", label: "Home" },
   { href: "/menu", label: "Menù" },
+  { href: "/crea", label: "Crea" },
   { href: "/ordina", label: "Ordina" },
 ] as const;
 

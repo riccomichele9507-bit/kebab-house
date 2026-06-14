@@ -10,18 +10,19 @@ export const restaurant = {
     country: "IT",
     fullAddress: "Via Dante Alighieri 18, 75025 Policoro (MT)",
   },
-  phone: "+39 351 000 0000",
-  phoneDisplay: "351 000 0000",
-  whatsapp: "+393510000000",
-  whatsappDisplay: "351 000 0000",
+  phone: "+39 353 349 2178",
+  phoneDisplay: "353 349 2178",
+  whatsapp: "+393533492178",
+  whatsappDisplay: "353 349 2178",
   whatsappLink:
-    "https://wa.me/393510000000?text=" +
+    "https://wa.me/393533492178?text=" +
     encodeURIComponent("Ciao Kebab House! Vorrei fare un ordine."),
   email: "info@kebabhouse-policoro.it",
   hours: {
-    weekdays: "12:00 – 15:00 · 18:00 – 23:30",
-    weekend: "12:00 – 15:30 · 18:00 – 00:30",
-    closed: "Sempre aperti",
+    weekdays: "11:00 – 00:00 · orario continuato",
+    weekend: "11:00 – 00:00 · orario continuato",
+    everyday: "Tutti i giorni 11:00 – 00:00",
+    closed: "Sempre aperti · orario continuato",
   },
   social: {
     instagram: "https://instagram.com/",

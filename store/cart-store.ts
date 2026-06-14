@@ -59,6 +59,34 @@ export function addToCart(dish: Dish, qty = 1) {
   emit();
 }
 
+/**
+ * Aggiunge una riga personalizzata dal builder /crea.
+ * L'id incorpora le opzioni così configurazioni diverse restano righe separate,
+ * mentre la stessa identica configurazione si somma in quantità.
+ */
+export function addCustomLine(
+  base: { id: string; name: string; format?: string; price: number },
+  options: string[],
+  qty = 1,
+) {
+  ensureHydrated();
+  const slug = options.length
+    ? options.join("|").toLowerCase().replace(/[^a-z0-9]+/g, "-")
+    : "liscio";
+  const lineId = `${base.id}__${slug}`;
+  const existing = lines.find((l) => l.id === lineId);
+  if (existing) {
+    lines = lines.map((l) => (l.id === lineId ? { ...l, qty: l.qty + qty } : l));
+  } else {
+    lines = [
+      ...lines,
+      { id: lineId, name: base.name, format: base.format, price: base.price, qty, options },
+    ];
+  }
+  persist();
+  emit();
+}
+
 export function setQty(id: string, qty: number) {
   ensureHydrated();
   lines = qty <= 0 ? lines.filter((l) => l.id !== id) : lines.map((l) => (l.id === id ? { ...l, qty } : l));

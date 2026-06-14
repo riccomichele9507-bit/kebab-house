@@ -53,14 +53,42 @@ CREATE_URL = f"{API_BASE}/createTask"
 QUERY_URL = f"{API_BASE}/recordInfo"
 MODEL = "nano-banana-2"
 
-# Stile food-photography premium "che fa venire fame", sfondo caldo crema/brace.
+# Sfondo condiviso: stesso "set" caldo crema/terracotta per TUTTE le foto del menù.
+SHARED_BG = (
+    "on a warm cream and terracotta surface with a rustic wooden board, soft warm studio "
+    "lighting, shallow depth of field, high detail, photorealistic, commercial menu quality, no watermark, no hands"
+)
+
+# Stile food-photography premium "che fa venire fame".
 STYLE = (
     "ultra appetizing professional food photography, close-up 45-degree hero shot, "
     "fresh and steaming, juicy textures, glistening sauce, melted cheese, vibrant fresh "
-    "vegetables, golden crispy details, shallow depth of field with creamy bokeh, soft warm "
-    "studio lighting, on a warm cream and terracotta surface with a rustic wooden board, "
-    "mouth-watering, high detail, photorealistic, commercial menu quality, no text, no watermark, no hands"
+    "vegetables, golden crispy details, creamy bokeh, mouth-watering, " + SHARED_BG + ", no text"
 )
+
+# Stile drink-photography (lattine/bottiglie), stesso sfondo caldo del cibo.
+DRINK_STYLE = (
+    "professional product drink photography, single can or bottle centered, ice-cold with "
+    "fresh water condensation droplets, refreshing, readable brand label, " + SHARED_BG
+)
+
+# Bevande del menù (id == data/menu.ts). Usano DRINK_STYLE.
+DRINKS: dict[str, str] = {
+    "coca-cola": "a classic Coca-Cola red aluminium can",
+    "coca-cola-zero": "a Coca-Cola Zero sleek black aluminium can",
+    "fanta": "a Fanta orange soda aluminium can",
+    "sprite": "a Sprite green and silver soda aluminium can",
+    "estathe-pesca": "an Estathe peach iced tea drink can, warm orange packaging",
+    "estathe-limone": "an Estathe lemon iced tea drink can, yellow packaging",
+    "pepsi": "a Pepsi blue cola aluminium can",
+    "acqua": "a clear plastic bottle of natural mineral water",
+    "birra-heineken": "a green Heineken lager beer bottle with a small glass of golden beer",
+    "birra-raffo": "an Italian Raffo golden lager beer bottle",
+    "birra-peroni": "an Italian Peroni golden lager beer bottle",
+    "birra-dreher": "an Italian Dreher golden lager beer bottle",
+    "birra-nastro-azzurro": "an Italian Peroni Nastro Azzurro premium beer bottle with blue label",
+    "birra-tennents": "a Tennent's Super strong lager beer can, red and gold",
+}
 
 # Soggetto specifico per ogni piatto (id deve combaciare con data/menu.ts).
 DISHES: dict[str, str] = {
@@ -173,12 +201,13 @@ def main() -> None:
 
     key = api_key()
     OUT_DIR.mkdir(parents=True, exist_ok=True)
-    targets = args or list(DISHES.keys())
+    all_items = {**DISHES, **DRINKS}
+    targets = args or list(all_items.keys())
     print(f"[i] Genero {len(targets)} immagini @ {resolution} → {OUT_DIR}")
 
     ok = 0
     for i, dish_id in enumerate(targets, 1):
-        subject = DISHES.get(dish_id)
+        subject = all_items.get(dish_id)
         if not subject:
             print(f"  [{i}/{len(targets)}] {dish_id}: id sconosciuto, salto.")
             continue
@@ -187,7 +216,8 @@ def main() -> None:
             print(f"  [{i}/{len(targets)}] {dish_id}: già presente, salto (--force per rifare).")
             ok += 1
             continue
-        prompt = f"{subject}, {STYLE}"
+        style = DRINK_STYLE if dish_id in DRINKS else STYLE
+        prompt = f"{subject}, {style}"
         try:
             print(f"  [{i}/{len(targets)}] {dish_id}: task…", flush=True)
             task_id = create_task(prompt, key, resolution)

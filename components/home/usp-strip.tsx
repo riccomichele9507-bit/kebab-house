@@ -3,7 +3,7 @@ import { ShieldCheck, Flame, Clock } from "lucide-react";
 const usps = [
   { icon: ShieldCheck, label: "100% Halal", sub: "Carne certificata" },
   { icon: Flame, label: "Allo spiedo", sub: "Cotto al momento" },
-  { icon: Clock, label: "Pranzo & Cena", sub: "Sempre aperti" },
+  { icon: Clock, label: "11 – 00", sub: "Orario continuato" },
 ] as const;
 
 export function UspStrip() {

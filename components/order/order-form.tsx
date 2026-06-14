@@ -138,6 +138,11 @@ export function OrderForm() {
                   {l.name}
                   {l.format && <span className="text-warm-gray"> · {l.format}</span>}
                 </p>
+                {l.options && l.options.length > 0 && (
+                  <p className="line-clamp-2 text-[11px] leading-snug text-warm-gray">
+                    {l.options.join(", ")}
+                  </p>
+                )}
                 <p className="text-xs text-warm-gray">{formatPrice(l.price)} cad.</p>
               </div>
               <div className="flex items-center gap-1.5 rounded-full bg-cream px-1 py-1 ring-1 ring-black/5">
@@ -463,12 +468,17 @@ function Confirmation({ data }: { data: OrderConfirmation }) {
           <div className="px-6 py-2">
             <ul className="divide-y divide-black/5">
               {data.items.map((l) => (
-                <li key={l.id} className="flex items-center justify-between gap-3 py-2.5 text-sm">
-                  <span className="text-ink">
+                <li key={l.id} className="flex items-start justify-between gap-3 py-2.5 text-sm">
+                  <span className="min-w-0 text-ink">
                     <span className="font-bold text-ember">{l.qty}×</span> {l.name}
                     {l.format && <span className="text-warm-gray"> · {l.format}</span>}
+                    {l.options && l.options.length > 0 && (
+                      <span className="block text-[11px] leading-snug text-warm-gray">
+                        {l.options.join(", ")}
+                      </span>
+                    )}
                   </span>
-                  <span className="font-semibold tabular-nums text-ink">{formatPrice(l.price * l.qty)}</span>
+                  <span className="shrink-0 font-semibold tabular-nums text-ink">{formatPrice(l.price * l.qty)}</span>
                 </li>
               ))}
             </ul>

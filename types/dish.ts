@@ -3,7 +3,9 @@ export type CategoryId =
   | "burger"
   | "piatti"
   | "fritti"
-  | "menu-combo";
+  | "menu-combo"
+  | "bibite"
+  | "birre";
 
 export type Allergen =
   | "glutine"
@@ -33,6 +35,10 @@ export interface Dish {
   isVegetarian?: boolean;
   isNew?: boolean;
   isFeatured?: boolean;
+  /** Base "solo carne" personalizzabile dal builder /crea. */
+  isCustomizable?: boolean;
+  /** Tipo di base per il builder (panino/piadina/piatto). */
+  baseKind?: "panino" | "piadina" | "piatto";
   /** Colori del placeholder a gradiente quando manca la foto. */
   bgFrom?: string;
   bgTo?: string;

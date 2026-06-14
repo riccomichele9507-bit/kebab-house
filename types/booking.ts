@@ -7,6 +7,8 @@ export interface CartLine {
   format?: string;
   price: number; // centesimi
   qty: number;
+  /** Personalizzazioni scelte nel builder (es. ["Insalata", "Salsa piccante"]). */
+  options?: string[];
 }
 
 export interface OrderDraft {
